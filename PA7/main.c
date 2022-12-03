@@ -1,5 +1,3 @@
-// Authors: Deitel & Deitel - C How to Program
-
 #include "header.h"
 
 int main(void)
@@ -11,21 +9,10 @@ int main(void)
 	const char* face[13] = { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
 		"Nine", "Ten", "Jack", "Queen", "King" };
 
-	/* initalize deck array */
-	int deck[4][13] = { 0 };
-
-	// Declare variables
-	int a = 1;
-	int index = 0, playerRank = 0, computerRank = 0, count = 0, redrawn = 0, temp = 0;
-	int counting[13] = { 0 };
-	int indexes[5] = { 0 };
-	struct Hand playerHand = { 0 }, computerHand = { 0 };
-	int playerFaceValues[5] = {0}, computerFaceValues[5] = {0};
-	int playerMax = 0, computerMax = 0;
+	
 	// Set rand string
 	srand((unsigned int)time(NULL));
-
-	
+	int a = 1;
 	while (a) {
 		a = gameplay_menu();
 		if (a == -1) {
@@ -34,19 +21,32 @@ int main(void)
 		}
 	}
 	
-	system("cls");
+	
 	while (1)
 	{
+		system("cls");
+		/* initalize deck array */
+		int deck[4][13] = { 0 };
+
+		// Declare variables
+
+		int index = 0, playerRank = 0, computerRank = 0, count = 0, redrawn = 0, temp = 0;
+		int counting[13] = { 0 };
+		int indexes[5] = { 0 };
+		struct Hand playerHand = { 0 }, computerHand = { 0 };
+		int playerFaceValues[5] = { 0 }, computerFaceValues[5] = { 0 };
+		int playerMax = 0, computerMax = 0;
+		char input;
+
 		shuffle(deck);
 		playerHand = deal(deck, &index, 5, playerHand);
 		computerHand = deal(deck, &index, 5, computerHand);
 
 		printHand(playerHand);
-		redraw(playerHand, deck, &index);
+		playerHand = redraw(playerHand, deck, &index);
 		
 		playerRank = getRank(playerHand);
 		computerRank = getRank(computerHand);
-		printf("%d", computerRank);
 		printf("Computer's hand:\n");
 		printHand(computerHand);
 
@@ -94,11 +94,11 @@ int main(void)
 
 		if (playerRank > computerRank)
 		{
-			printf("congratulations you beat a robot");
+			printf("congratulations you beat a robot\n");
 		}
 		else if (playerRank < computerRank)
 		{
-			printf("you lost");
+			printf("you lost\n");
 		}
 		else {
 			for (int i = 0; i < 5; i++)
@@ -114,38 +114,42 @@ int main(void)
 			{
 				if (playerFaceValues[4] > computerFaceValues[4])
 				{
-					printf("congratulations you beat a robot");
+					printf("congratulations you beat a robot\n");
 				}
 				else if (playerFaceValues[4] < computerFaceValues[4])
 				{
-					printf("you lost");
+					printf("you lost\n");
 				}
 				else if (playerFaceValues[4] == computerFaceValues[4]) {
 					if (playerFaceValues[0] == 1 && computerFaceValues[0] != 1) {
-						printf("congratulations you beat a robot");
+						printf("congratulations you beat a robot\n");
 					}
 					else if (playerFaceValues[0] != 1 && computerFaceValues[0] == 1) {
-						printf("you lost");
+						printf("you lost\n");
 					}
 					else {
-						printf("you tied");
+						printf("you tied\n");
 					}
 				}
 				else {
-					printf("you tied");
+					printf("you tied\n");
 				}
 			}
 			else {
-				printf("you tied");
+				printf("you tied\n");
 			}
 
 		}
+
+		printf("Would you like to play again? (y/n)\n");
+		scanf(" %c", &input);
+		if (input != 'n') {
+			continue;
+		}
+		else {
+			break;
+		}
 	}
-
-	
-
-		
-
 
 	return 0;
 }

@@ -1,12 +1,4 @@
 #pragma once
-/*
-PROJ: PA 5
-AUTH: Alan Sun
-DATE LAST MODIFIED: OCT 18 2022
-INSTR: Andy O'Fallon
-COURSE: CPT-S 121
-PURPOSE: To play the game Yahtzee with multiple players
-*/
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -51,7 +43,7 @@ void printHand(struct Hand hand);
 
 void swap(struct Card cards[], int i1, int i2);
 
-void redraw(struct Hand hand, int deck[][13], int* index);
+struct Hand redraw(struct Hand hand, int deck[][13], int* index);
 
 void bubbleSort(int arr[], int count);
 

@@ -32,29 +32,32 @@ struct Hand deal(int deck[][13], int* index, int count, struct Hand hand)
 	return hand;
 }
 
+//draw the next card in the deck
 struct Card draw(int deck[][13], int* index) {
 	struct Card card = { 0, 0 };
 
+	//traverse column, then row
 	card.faceIndex = (deck[*index / 13][*index % 13]) % 13;
 	card.suitIndex = (deck[*index / 13][*index % 13]) / 13;
-	
+	//increment index pointer so same card is not dealt twice
 	(*index)++;
 
 	return card;
 }
 
+//basic menu for selection options
 int gameplay_menu(void)
 {
 	int option = 0, play_game = 0;
 
-	printf("************************************************ Welcome to Poker! ************************************************\n\n");
+	printf("Welcome to Poker!\n\n");
 
 	printf("Choose an option by entering the corresponding number:\n1. Print game rules\n2. Start a game of Poker\n3. Exit\n");
 
 	scanf("%d", &option);
 	if (option == 1) {
 		system("cls");
-		printf("************************************************ Welcome to Poker! ************************************************\n");
+		printf("Welcome to Poker!\n");
 
 		print_game_rules();
 		play_game = 1;
@@ -74,35 +77,35 @@ int gameplay_menu(void)
 
 }
 
+//print rules
 void print_game_rules(void) 
 {
 	printf("Play begins with each player being dealt five cards, one at a time, all face down.\n");
-	printf("The remaining deck is placed aside. Players pick up the cards and review them. Then a round of betting occurs.\n");
+	printf("The remaining deck is placed aside. Players pick up the cards and review them.\n");
 	printf("If more than one player remains after the first round, the draw phase begins.\n");
 	printf("Each player specifies how many of their cards they wish to replace and discards any cards they choose.\n");
 	printf("Each player is dealt in turn from the deck so that each player again has five cards.\n");
 	printf("Each player's goal is to try have higher priority one of following the ten categories:\n");
-	printf("\t (Listed from Best to Worst) and (in event of tie) \n");
+	printf("\t (Listed from Best to Worst)\n");
 	printf("\t Royal flush - 5 cards of the same suit which are Ace, King, Queen, Jack, Ten\n");
-	printf("\t Straight flush - Any five consecutive numbers which are all from the same suit (larger straight wins)\n");
-	printf("\t Four of a kind - Four cards with the same number (larger four of a kind wins)\n");
-	printf("\t Full house - three of a kind and a pair (largest three of a kind wins)\n");
-	printf("\t Flush - Five cards which are all from the same suit (larger of largest number in flush wins)\n");
-	printf("\t Straight - Any five consecutive numbers (larger straight wins)\n");
-	printf("\t Three of a kind - Three cards with the same number (larger three of a kind wins)\n");
-	printf("\t Two pair - Two pairs (larger top pair wins)\n");
-	printf("\t Pair - Two cards with the same number (larger top pair wins)\n");
+	printf("\t Straight flush - Any five consecutive numbers which are all from the same suit\n");
+	printf("\t Four of a kind - Four cards with the same number\n");
+	printf("\t Full house - three of a kind and a pair\n");
+	printf("\t Flush - Five cards which are all from the same suit\n");
+	printf("\t Straight - Any five consecutive numbers\n");
+	printf("\t Three of a kind - Three cards with the same number\n");
+	printf("\t Two pair - Two pairs\n");
+	printf("\t Pair - Two cards with the same number\n");
 	printf("\t No pair - None of the above\n");
 	printf("If both players end up on the same priority tier, then the highest card will win according to the following order:\n");
 	printf("(Highest) A K Q J 10 9 8 7 6 5 4 3 2 (Lowest)\n");
 	printf("The combination which is highest on this list will be used as the player's play\n");
-	printf("A second betting round occurs based on the hand after redraws have been completed\n");
 	printf("If more than one player remains the player with the best hand wins the pot.\n");
 }
 
 int flush(struct Hand hand)
 {
-	int store[4];
+	int store[4] = { 0 };
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -272,7 +275,8 @@ void printHand(struct Hand hand) {
 	}
 }
 
-void redraw(struct Hand hand, int deck[][13], int* index)
+//redraw
+struct Hand redraw(struct Hand hand, int deck[][13], int* index)
 {
 	int redrawn_num = 0, store[3] = { 0, 0, 0 }, reroll_card = 0;
 
@@ -280,7 +284,7 @@ void redraw(struct Hand hand, int deck[][13], int* index)
 		printf("Enter the amount of cards you wish to redraw (1 - 3) or input 0 if you wish to redraw no cards: \n");
 		scanf("%d", &redrawn_num);
 		printHand(hand);
-
+		//store redrawn indexes into array
 		if (redrawn_num == 0)
 		{
 			return;
@@ -299,12 +303,14 @@ void redraw(struct Hand hand, int deck[][13], int* index)
 		}
 	} while (redrawn_num < 0 || redrawn_num > 3);
 	
+	//loop through array and redraw at indexes
 	for (int i = 0; i < redrawn_num; i++)
 	{
 		hand.cards[store[i] - 1] = draw(deck, index);
 	}
 
 	printHand(hand);
+	return hand;
 }
 
 void bubbleSort(int arr[], int count) {
@@ -323,6 +329,7 @@ void bubbleSort(int arr[], int count) {
 	} while (swapped != 0);
 }
 
+//return score
 int getRank(struct Hand hand) {
 		
 	if (straight(hand) && flush(hand)) {
