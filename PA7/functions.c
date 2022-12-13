@@ -204,12 +204,11 @@ int twoPair(struct Hand hand) {
 
 int full_house(struct Hand hand)
 {
-	int temp[5] = { 3, 3, 5, 12, 12 };
 	int store[13] = { 0 }, x = 0, comp1 = 0, comp2 = 0;
 
 	for (int i = 0; i < 5; i++)
 	{
-		store[temp[i]]++;
+		store[hand.cards[i].faceIndex]++;
 	}
 
 	for (int i = 0; i < 13; i++)
